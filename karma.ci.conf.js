@@ -1,7 +1,15 @@
 const common = require('./rollup.common.config.js');
 
 module.exports = (config) => {
-  const lastTwoVersions = ['Chrome', 'Firefox', 'MicrosoftEdge', 'Safari'].reduce((output, browser) => {
+  const browsers = [
+    'Chrome',
+    'Firefox',
+    'MicrosoftEdge',
+    'Safari',
+    'Internet Explorer'
+  ];
+
+  const customLaunchers = browsers.reduce((output, browser) => {
     // TODO: For some reason Safari 12 throws a 500 error...
     output[`${browser}Latest`] = {
       base: 'SauceLabs',
@@ -9,21 +17,16 @@ module.exports = (config) => {
       version: browser === 'Safari' ? 'latest-1' : 'latest'
     };
 
-    output[`${browser}Prior`] = {
-      base: 'SauceLabs',
-      browserName: browser.toLowerCase(),
-      version: browser === 'Safari' ? 'latest-2' : 'latest-1'
-    };
+    if (browser !== 'Internet Explorer') {
+      output[`${browser}Prior`] = {
+        base: 'SauceLabs',
+        browserName: browser.toLowerCase(),
+        version: browser === 'Safari' ? 'latest-2' : 'latest-1'
+      };
+    }
+
     return output;
   }, {});
-
-  const customLaunchers = Object.assign(lastTwoVersions, {
-    InternetExplorer11: {
-      base: 'SauceLabs',
-      browserName: 'internet explorer',
-      version: '11'
-    }
-  });
 
   config.set({
     basePath: '',
@@ -67,7 +70,7 @@ module.exports = (config) => {
     logLevel: config.LOG_INFO,
 
     sauceLabs: {
-      testName: 'salte-auth/salte-auth',
+      testName: 'salte-auth/redirect',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       startConnect: false
     },
