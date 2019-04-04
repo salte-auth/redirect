@@ -37,16 +37,6 @@
 
 </div>
 
-## Supported Browsers
-
-_If a version isn't specified that means we test on the latest and greatest, however most versions of that browser should work._
-
-- Chrome
-- Firefox
-- Safari 8+ (7.1 and below require a [Promise polyfill](#promise-polyfill))
-- Edge
-- IE 10+ (Requires a [Promise polyfill](#promise-polyfill))
-
 ## Install
 
 ```sh
@@ -72,6 +62,12 @@ const auth = new SalteAuth({
 
 auth.login('github');
 ```
+
+## Known Issues
+
+_These are issues that we know about, but don't have a clear fix for!_
+
+**There are currently no known issues, thanks for checking!**
 
 [npm-version-image]: https://img.shields.io/npm/v/@salte-auth/redirect.svg?style=flat
 [npm-downloads-image]: https://img.shields.io/npm/dm/@salte-auth/redirect.svg?style=flat
