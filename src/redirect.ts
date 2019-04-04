@@ -17,7 +17,7 @@ export class Redirect extends Handler {
     return true;
   }
 
-  public connected({ action, handler, provider }: Handler.ConnectedOptions) {
+  public async connected({ action, handler, provider }: Handler.ConnectedOptions) {
     if (handler !== this.name) return;
 
     const origin = this.get('origin');
@@ -33,10 +33,13 @@ export class Redirect extends Handler {
       });
     }
 
+    await new Promise((resolve) => setTimeout(resolve));
+
     if (action === 'login') {
       provider.validate(Utils.URL.parse(location));
     } else if (action === 'logout') {
       provider.reset();
+      provider.emit('logout');
     } else {
       throw new SalteAuthError({
         code: 'unknown_action',

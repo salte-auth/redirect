@@ -28,43 +28,50 @@ describe('Redirect', () => {
     beforeEach(() => {
       provider = {
         validate: sinon.stub(),
-        reset: sinon.stub()
+        reset: sinon.stub(),
+        emit: sinon.stub()
       };
     });
 
-    it('should support logging in', () => {
+    it('should support logging in', async () => {
       sinon.stub(redirect, 'get').returns('https://google.com');
 
-      redirect.connected({
+      const promise = redirect.connected({
         action: 'login',
         handler: 'redirect',
         provider: provider
       });
+
+      expect(provider.validate.callCount).to.equal(0);
+      expect(redirect.navigate.callCount).to.equal(0);
+
+      await promise;
 
       expect(provider.validate.callCount).to.equal(1);
       expect(provider.reset.callCount).to.equal(0);
       expect(redirect.navigate.callCount).to.equal(1);
     });
 
-    it('should support logging out', () => {
+    it('should support logging out', async () => {
       sinon.stub(redirect, 'get').returns('https://google.com');
 
-      redirect.connected({
+      await redirect.connected({
         action: 'logout',
         handler: 'redirect',
         provider: provider
       });
 
       expect(provider.reset.callCount).to.equal(1);
+      expect(provider.emit.callCount).to.equal(1);
       expect(provider.validate.callCount).to.equal(0);
       expect(redirect.navigate.callCount).to.equal(1);
     });
 
-    it(`should throw an error for unknown actions`, () => {
+    it(`should throw an error for unknown actions`, async () => {
       sinon.stub(redirect, 'get').returns('https://google.com');
 
       try {
-        redirect.connected({
+        await redirect.connected({
           action: 'unknown',
           handler: 'redirect',
           provider
@@ -79,11 +86,11 @@ describe('Redirect', () => {
       }
     });
 
-    it(`should throw an error if a provider isn't given`, () => {
+    it(`should throw an error if a provider isn't given`, async () => {
       sinon.stub(redirect, 'get').returns('https://google.com');
 
       try {
-        redirect.connected({
+        await redirect.connected({
           action: 'logout',
           handler: 'redirect',
           provider: null
@@ -98,10 +105,10 @@ describe('Redirect', () => {
       }
     });
 
-    it(`should bail if we aren't the active handler`, () => {
+    it(`should bail if we aren't the active handler`, async () => {
       sinon.stub(redirect, 'get').returns('https://google.com');
 
-      redirect.connected({
+      await redirect.connected({
         action: 'login',
         handler: 'tab',
         provider
@@ -112,10 +119,10 @@ describe('Redirect', () => {
       expect(redirect.navigate.callCount).to.equal(0);
     });
 
-    it(`should bail if we don't have an origin`, () => {
+    it(`should bail if we don't have an origin`, async () => {
       sinon.stub(redirect, 'get').returns(null);
 
-      redirect.connected({
+      await redirect.connected({
         action: 'login',
         handler: 'redirect',
         provider

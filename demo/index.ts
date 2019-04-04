@@ -9,7 +9,9 @@ const auth = new SalteAuth({
       },
 
       clientID: 'b44780ca7678681180c9',
-      responseType: 'code'
+      responseType: 'code',
+
+      routes: true
     })
   ],
 
@@ -20,12 +22,15 @@ const auth = new SalteAuth({
   ]
 });
 
+auth.on('login', (error, idToken) => {
+  if (error) console.error(error);
+  else console.log(idToken);
+});
+
 const button = document.createElement('button');
 button.innerHTML = `Login`;
 button.addEventListener('click', () => {
-  auth.login({
-    provider: 'generic.oauth2'
-  });
+  auth.login('generic.oauth2');
 });
 
 document.body.appendChild(button);
