@@ -15,6 +15,6 @@ after_success:
   - npm start report-coverage
   # - npm start semantic-release
 addons:
-  chrome: stable # have Travis install Chrome stable.
+  sauce_connect: true
 notifications:
   email: change
