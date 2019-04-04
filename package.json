@@ -40,7 +40,7 @@
     "browserstack-capabilities": "^0.7.0",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.0.0",
     "coveralls": "^3.0.3",
     "deindent": "^0.1.0",
     "eslint": "^5.15.3",
