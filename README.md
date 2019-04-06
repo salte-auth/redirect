@@ -19,7 +19,7 @@
 
 <p align="center">
 	<strong>
-		<a href="https://salte-auth.github.io/salte-auth">Docs</a>
+		<a href="https://salte-auth.gitbook.io">Docs</a>
 		•
 		<a href="https://salte-auth-demo.glitch.me">Demo</a>
 	</strong>
@@ -52,11 +52,15 @@ import { Redirect } from '@salte-auth/redirect';
 
 const auth = new SalteAuth({
   providers: [
-    new GitHub('12345')
+    new GitHub({
+      clientID: '12345'
+    })
   ],
 
   handlers: [
-    new Redirect()
+    new Redirect({
+      default: true
+    })
   ]
 });
 

@@ -9,9 +9,11 @@ const copy = require('rollup-plugin-copy-assets-to');
 
 const { name, contributors, version, browserslist } = require('./package.json');
 
-module.exports = function({ minified, es6, coverage, tests, server }) {
+module.exports = function({ minified, es6, tests, coverage, demo, server }) {
+  demo = demo || server;
+
   return {
-    input: server ? 'demo/index.ts' : 'src/redirect.ts',
+    input: demo ? 'demo/index.ts' : 'src/redirect.ts',
     external: tests || server ? [] : ['@salte-auth/salte-auth'],
     output: {
       file: `dist/redirect${minified ? '.min' : ''}.${es6 ? 'mjs' : 'js'}`,
@@ -35,8 +37,7 @@ module.exports = function({ minified, es6, coverage, tests, server }) {
 
     plugins: [
       resolve({
-        module: false,
-        browser: true,
+        mainFields: ['main', 'browser'],
 
         extensions: [ '.mjs', '.js', '.jsx', '.json', '.ts' ]
       }),
@@ -50,6 +51,8 @@ module.exports = function({ minified, es6, coverage, tests, server }) {
       glob(),
 
       babel({
+        runtimeHelpers: true,
+
         presets: [
           '@babel/typescript',
           ['@babel/preset-env', {
@@ -61,11 +64,15 @@ module.exports = function({ minified, es6, coverage, tests, server }) {
           }]
         ],
 
-        plugins: coverage ? [['istanbul', {
+        plugins: [
+          ['@babel/plugin-transform-runtime', {
+            regenerator: true
+          }]
+        ].concat(coverage ? [['istanbul', {
           include: [
             'src/**/*.ts'
           ]
-        }]] : [],
+        }]] : []),
 
         exclude: 'node_modules/!(chai|sinon)/**',
         extensions: [".ts", ".js", ".jsx", ".es6", ".es", ".mjs"]
@@ -83,7 +90,7 @@ module.exports = function({ minified, es6, coverage, tests, server }) {
         }
       }),
 
-      server && copy({
+      demo && copy({
         assets: [
           './demo/index.html'
         ],

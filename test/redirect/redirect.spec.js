@@ -23,7 +23,7 @@ describe('Redirect', () => {
     });
   });
 
-  describe('getter(connected)', () => {
+  describe('function(connected)', () => {
     let provider;
     beforeEach(() => {
       provider = {
@@ -134,7 +134,7 @@ describe('Redirect', () => {
     });
   });
 
-  describe('getter(open)', () => {
+  describe('function(open)', () => {
     it('should redirect the user to the given url', () => {
       redirect.open({
         url: 'https://google.com'
