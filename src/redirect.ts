@@ -26,7 +26,7 @@ export class Redirect extends Handler {
 
     this.clear('origin');
 
-    setTimeout(() => this.navigate(origin));
+    this.navigate(origin);
 
     if (action === 'login') {
       return Utils.URL.parse(location);

@@ -35,12 +35,8 @@ describe('Redirect', () => {
         action: 'login'
       });
 
-      expect(redirect.navigate.callCount).to.equal(0);
-      expect(parsed).to.deep.equal({});
-
-      await navigated;
-
       expect(redirect.navigate.callCount).to.equal(1);
+      expect(parsed).to.deep.equal({});
     });
 
     it('should support logging out', async () => {
@@ -50,12 +46,8 @@ describe('Redirect', () => {
         action: 'logout'
       });
 
-      expect(redirect.navigate.callCount).to.equal(0);
-      expect(parsed).to.equal(undefined);
-
-      await navigated;
-
       expect(redirect.navigate.callCount).to.equal(1);
+      expect(parsed).to.equal(undefined);
     });
 
     it(`should bail if we aren't the active handler`, async () => {
