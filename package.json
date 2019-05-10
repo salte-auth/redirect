@@ -4,7 +4,7 @@
   "main": "dist/redirect.min.js",
   "module": "dist/redirect.min.mjs",
   "types": "dist/redirect.d.ts",
-  "description": "A Salte Auth provider for authenticating via Redirect!",
+  "description": "A Salte Auth handler for authenticating via Redirect!",
   "homepage": "https://github.com/salte-auth/redirect",
   "bugs": "https://github.com/salte-auth/redirect/issues",
   "contributors": [
