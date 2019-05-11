@@ -26,9 +26,9 @@ export class Redirect extends Handler {
 
     this.clear('origin');
 
-    this.navigate(origin);
-
     if (action === 'login') {
+      // Does it make sense to navigate on 'logout'?
+      this.navigate(origin);
       return Utils.URL.parse(location);
     }
   }
