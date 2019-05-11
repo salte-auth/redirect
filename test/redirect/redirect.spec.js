@@ -46,7 +46,7 @@ describe('Redirect', () => {
         action: 'logout'
       });
 
-      expect(redirect.navigate.callCount).to.equal(1);
+      expect(redirect.navigate.callCount).to.equal(0);
       expect(parsed).to.equal(undefined);
     });
 
