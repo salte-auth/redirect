@@ -1,6 +1,6 @@
 {
   "name": "@salte-auth/redirect",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "main": "dist/redirect.min.js",
   "module": "dist/redirect.min.mjs",
   "types": "dist/redirect.d.ts",
