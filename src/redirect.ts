@@ -28,8 +28,10 @@ export class Redirect extends Handler {
 
     if (action === 'login') {
       // Does it make sense to navigate on 'logout'?
+      // NOTE: This order, matters since navigate modifies the location.
+      const parsed = Utils.URL.parse(location);
       this.navigate(origin);
-      return Utils.URL.parse(location);
+      return parsed;
     }
   }
 
