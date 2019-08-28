@@ -35,7 +35,7 @@ export class Redirect extends Handler {
     }
   }
 
-  public open({ url, timeout = this.config.timeout }: Redirect.OpenOptions) {
+  public open({ url, timeout = this.config.timeout }: Redirect.OpenOptions): Promise<object> {
     this.set('origin', location.href);
 
     this.navigate(url);
