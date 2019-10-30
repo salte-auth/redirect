@@ -20,11 +20,11 @@ export class Redirect extends Handler {
   public connected({ action }: Handler.ConnectedOptions) {
     if (!action) return;
 
-    const origin = this.get('origin');
+    const origin = this.storage.get('origin');
 
     if (!origin) return;
 
-    this.clear('origin');
+    this.storage.delete('origin');
 
     if (action === 'login') {
       // Does it make sense to navigate on 'logout'?
@@ -36,7 +36,7 @@ export class Redirect extends Handler {
   }
 
   public open({ url, timeout = this.config.timeout }: Redirect.OpenOptions): Promise<object> {
-    this.set('origin', location.href);
+    this.storage.set('origin', location.href);
 
     this.navigate(url);
 

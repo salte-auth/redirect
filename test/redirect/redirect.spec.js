@@ -5,14 +5,9 @@ import { Redirect } from '../../src/redirect';
 describe('Redirect', () => {
   /** @type {Redirect} */
   let redirect;
-  /** @type {Promise<string>} */
-  let navigated;
   beforeEach(() => {
     redirect = new Redirect();
-    sinon.stub(redirect, 'clear');
-    navigated = new Promise((resolve) => {
-      sinon.stub(redirect, 'navigate').callsFake(resolve);
-    });
+    sinon.stub(redirect, 'navigate');
   });
 
   describe('getter(name)', () => {
@@ -29,7 +24,7 @@ describe('Redirect', () => {
 
   describe('function(connected)', () => {
     it('should support logging in', async () => {
-      sinon.stub(redirect, 'get').returns('https://google.com');
+      sinon.stub(redirect.storage, 'get').returns('https://google.com');
 
       const parsed = redirect.connected({
         action: 'login'
@@ -40,7 +35,7 @@ describe('Redirect', () => {
     });
 
     it('should support logging out', async () => {
-      sinon.stub(redirect, 'get').returns('https://google.com');
+      sinon.stub(redirect.storage, 'get').returns('https://google.com');
 
       const parsed = redirect.connected({
         action: 'logout'
@@ -51,7 +46,7 @@ describe('Redirect', () => {
     });
 
     it(`should bail if we aren't the active handler`, async () => {
-      sinon.stub(redirect, 'get').returns('https://google.com');
+      sinon.stub(redirect.storage, 'get').returns('https://google.com');
 
       await redirect.connected({
         action: null
@@ -61,7 +56,7 @@ describe('Redirect', () => {
     });
 
     it(`should bail if we don't have an origin`, async () => {
-      sinon.stub(redirect, 'get').returns(null);
+      sinon.stub(redirect.storage, 'get').returns(null);
 
       await redirect.connected({
         action: 'login'
@@ -77,7 +72,7 @@ describe('Redirect', () => {
         url: 'https://google.com'
       });
 
-      expect(redirect.get('origin')).to.equal(location.href);
+      expect(redirect.storage.get('origin')).to.equal(location.href);
       expect(redirect.navigate.callCount).to.equal(1);
     });
 
