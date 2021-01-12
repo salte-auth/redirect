@@ -9,15 +9,15 @@ export class Redirect extends Handler {
     });
   }
 
-  public get name() {
+  public get name(): string {
     return 'redirect';
   }
 
-  public get auto() {
+  public get auto(): boolean {
     return true;
   }
 
-  public connected({ action }: Handler.ConnectedOptions) {
+  public connected({ action }: Handler.ConnectedOptions): any {
     if (!action) return;
 
     const origin = this.storage.get('origin');
